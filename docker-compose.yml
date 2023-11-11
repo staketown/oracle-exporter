@@ -73,7 +73,7 @@ services:
       - FLASK_DEBUG=true
     networks:
       - oracle-monitoring
-    entrypoint: ["/usr/bin/oracle-exporter", "--node umee-testnet-grpc.stake-town.com:443"]
+    entrypoint: ["/usr/bin/oracle-exporter", "--node", "umee-testnet-grpc.stake-town.com:443", "--log-level", "info"]
 
   alerta:
     image: alerta/alerta-web:latest

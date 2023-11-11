@@ -267,10 +267,11 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 			&oracletypes.QueryFeederDelegation{ValidatorAddr: myAddress.String()},
 		)
 		if err != nil {
-			sublogger.Warn().
+			sublogger.Error().
 				Str("valoper", valoper).
 				Err(err).
 				Msg("Could not get feeder account associated with the validator")
+			return
 		}
 
 		sublogger.Debug().
@@ -299,11 +300,10 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 			&oracletypes.QueryAggregatePrevote{ValidatorAddr: myAddress.String()},
 		)
 		if err != nil {
-			sublogger.Error().
+			sublogger.Warn().
 				Str("valoper", valoper).
 				Err(err).
 				Msg("Could not get validator prevote aggregate")
-			return
 		}
 
 		sublogger.Debug().
