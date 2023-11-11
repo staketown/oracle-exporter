@@ -22,11 +22,11 @@ scrape_configs:
       - targets: [localhost:9090]
 
   - job_name: oracle
-    metrics_path: /metrics/generic
+    metrics_path: /metrics/general
     relabel_configs:
       - source_labels:
           - valoper
-        target_label: __param_address
+        target_label: __param_valoper
     static_configs:
       - targets:
           - umee-oracle-exporter:9300
