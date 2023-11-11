@@ -19,3 +19,5 @@ EXPOSE 9300
 COPY --from=exporter /go/bin/main /usr/bin/oracle-exporter
 
 USER exporter
+
+ENTRYPOINT ["/usr/bin/oracle-exporter"]
