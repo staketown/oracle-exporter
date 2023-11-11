@@ -65,7 +65,7 @@ services:
 
   oracle_exporter:
     build: .
-    container_name: umee-oracle_exporter
+    container_name: umee-oracle-exporter
     ports:
       - "9300:9300"
     restart: always
