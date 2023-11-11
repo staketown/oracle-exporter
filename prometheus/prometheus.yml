@@ -25,7 +25,7 @@ scrape_configs:
     metrics_path: /metrics/generic
     relabel_configs:
       - source_labels:
-          - address
+          - valoper
         target_label: __param_address
     static_configs:
       - targets:
