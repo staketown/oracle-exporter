@@ -24,6 +24,14 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	valoper := r.URL.Query().Get("valoper")
 	myAddress, err := sdk.ValAddressFromBech32(valoper)
 
+	if err != nil {
+		sublogger.Error().
+			Str("valoper", valoper).
+			Err(err).
+			Msg("Could not get validator address")
+		return
+	}
+
 	generalWindowProgressGauge := prometheus.NewGauge(
 		prometheus.GaugeOpts{
 			Name:        "window_progress",
@@ -72,18 +80,10 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 		},
 	)
 
-	if err != nil {
-		sublogger.Error().
-			Str("valoper", valoper).
-			Err(err).
-			Msg("Could not get validator address")
-		return
-	}
-
 	validatorMissCounterGauge := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        "miss_counter",
-			Help:        "Delegations of the Cosmos-based blockchain validator",
+			Help:        "Current miss counter for a given validator",
 			ConstLabels: ConstLabels,
 		},
 		[]string{"valoper"},
@@ -92,7 +92,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	validatorFeederAccountGauge := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        "feeder_account",
-			Help:        "Tokens of the Cosmos-based blockchain validator",
+			Help:        "Account delegated account for a given validator",
 			ConstLabels: ConstLabels,
 		},
 		[]string{"valoper", "feeder"},
@@ -101,7 +101,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	validatorMissRateGauge := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        "miss_rate",
-			Help:        "Delegators shares of the Cosmos-based blockchain validator",
+			Help:        "Current miss rate for given validator",
 			ConstLabels: ConstLabels,
 		},
 		[]string{"valoper"},
@@ -110,7 +110,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	validatorNextWindowStartGauge := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        "next_window_start",
-			Help:        "Commission rate of the Cosmos-based blockchain validator",
+			Help:        "Timestamp of the next estimated windows start in UTC",
 			ConstLabels: ConstLabels,
 		},
 		[]string{"valoper"},
@@ -118,7 +118,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	validatorLastBlockVoteGauge := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        "last_block_vote",
-			Help:        "Commission of the Cosmos-based blockchain validator",
+			Help:        "Last block validator voted",
 			ConstLabels: ConstLabels,
 		},
 		[]string{"valoper"},
