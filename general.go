@@ -239,7 +239,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 		windowStart := time.Now()
 
 		oracleParams := oracleParamsResponse.Params
-		var blockTime uint64
+		var blockTime uint64 = 6
 		seconds := ((oracleParams.SlashWindow / oracleParams.VotePeriod) - slashWindowResponse.WindowProgress + 1) * blockTime * oracleParams.VotePeriod
 
 		sublogger.Debug().
@@ -249,7 +249,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 
 		validatorNextWindowStartGauge.With(prometheus.Labels{
 			"valoper": valoper,
-		}).Set(float64(time.Now().Add(time.Duration(seconds)).UnixMilli()))
+		}).Set(float64(time.Now().UnixMilli() + time.Duration(seconds).Milliseconds()))
 	}()
 
 	wg.Add(1)
@@ -304,6 +304,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 				Str("valoper", valoper).
 				Err(err).
 				Msg("Could not get validator prevote aggregate")
+			return
 		}
 
 		sublogger.Debug().
