@@ -42,7 +42,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 
 	paramsMinValidPerWindowGauge := prometheus.NewGauge(
 		prometheus.GaugeOpts{
-			Name:        "minvalidperwindow",
+			Name:        "min_valid_per_window",
 			Help:        "Percentage of misses triggering a slash at the end of the slash window",
 			ConstLabels: ConstLabels,
 		},
