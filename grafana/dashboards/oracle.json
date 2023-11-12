@@ -170,7 +170,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "next_window_start * 1000",
+          "expr": "next_window_start",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
