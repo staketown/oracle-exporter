@@ -221,8 +221,8 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 			Msg("Started calculate the miss rate")
 		missRateStart := time.Now()
 
-		missRate := missCounterResponse.MissCounter /
-			(slashWindowResponse.WindowProgress * uint64(len(oracleParamsResponse.Params.AcceptList)))
+		missRate := float64(missCounterResponse.MissCounter) /
+			(float64(slashWindowResponse.WindowProgress) * float64(len(oracleParamsResponse.Params.AcceptList)))
 
 		sublogger.Debug().
 			Str("valoper", valoper).
@@ -231,7 +231,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 
 		validatorMissRateGauge.With(prometheus.Labels{
 			"valoper": valoper,
-		}).Set(float64(missRate))
+		}).Set(missRate)
 
 		sublogger.Debug().
 			Str("valoper", valoper).
