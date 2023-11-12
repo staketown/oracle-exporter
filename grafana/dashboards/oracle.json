@@ -82,6 +82,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
+          "hide": false,
           "expr": "slash_window",
           "legendFormat": "{{__name__}}",
           "range": true,
