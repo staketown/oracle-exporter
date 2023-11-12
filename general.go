@@ -249,7 +249,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 
 		validatorNextWindowStartGauge.With(prometheus.Labels{
 			"valoper": valoper,
-		}).Set(float64(time.Now().UTC().Add(time.Duration(seconds) * time.Second).UnixMilli()))
+		}).Set(float64(time.Now().Add(time.Duration(seconds) * time.Second).UTC().Unix()))
 	}()
 
 	wg.Add(1)
