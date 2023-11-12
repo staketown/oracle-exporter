@@ -39,7 +39,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 4,
+
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -51,7 +51,43 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "slash_window"
+            },
+            "properties": [
+              {
+                "id": "decimals"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "minvalidperwindow"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "slash_fraction"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 4
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 12,
@@ -82,8 +118,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "hide": false,
           "expr": "slash_window",
+          "hide": false,
           "legendFormat": "{{__name__}}",
           "range": true,
           "refId": "A"
