@@ -24,7 +24,7 @@ docker compose version
 ### Install monitoring stack
 ```bash
 git clone https://github.com/staketown/oracle-monitoring.git oracle-monitoring
-cp $HOME/oracle-exporter/config/.env.example $HOME/oracle-monitoring/config/.env
+cp $HOME/oracle-monitoring/config/.env.example $HOME/oracle-monitoring/config/.env
 ```
 
 ### Update values in _.env_ file
