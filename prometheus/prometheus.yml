@@ -32,3 +32,4 @@ scrape_configs:
           - umee-oracle-exporter:9300
         labels:
           valoper: umeevaloper10fqmp4ppc2w4z5yu3skkm73sy3huuvndx52x6s
+          instance: umee-price-feeder
