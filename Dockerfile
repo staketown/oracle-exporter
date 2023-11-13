@@ -5,9 +5,9 @@ ENV GOPATH=/go
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 
-RUN git clone "https://github.com/staketown/oracle-exporter.git" /exporter
 WORKDIR /exporter
-RUN go install
+COPY . .
+RUN go build -o /oracle-exporter .
 
 FROM debian:buster-slim
 
@@ -16,6 +16,6 @@ RUN useradd -ms /bin/bash exporter && chown -R exporter /usr
 
 EXPOSE 9300
 
-COPY --from=exporter /go/bin/main /usr/bin/oracle-exporter
+COPY --from=exporter oracle-exporter /usr/bin/oracle-exporter
 
 USER exporter
