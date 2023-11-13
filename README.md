@@ -78,7 +78,7 @@ cd $HOME/oracle-monitoring && docker compose down && docker volume prune -f
 ```
 
 ## Reference list
-- Some logic taken from [umme oracle exporter by P-OPSTeam](https://github.com/P-OPSTeam/umee-oracle-exporter)
+- Some logic taken from [umee oracle exporter by P-OPSTeam](https://github.com/P-OPSTeam/umee-oracle-exporter)
 - Stack of monitoring tools [node_tooling by Xiphiar](https://github.com/Xiphiar/node_tooling/)
 - Alert manager telegram bot [alertmanager-bot by metalmatze](https://github.com/metalmatze/alertmanager-bot)
 
