@@ -6,7 +6,7 @@ it requires small resources (Ubuntu 22.04 / 1 VCPU / 2 GB RAM / 20 GB SSD)
 
 ## Installation
 1. Install git and curl
-```
+```bash
 sudo apt-get update && sudo apt-get install -y git curl
 ```
 
@@ -22,14 +22,14 @@ docker compose version
 ## Deployment
 
 ### Install monitoring stack
-```
-git clone https://github.com/staketown/oracle-exporter.git oracle-exporter
-cp $HOME/oracle-exporter/config/.env.example $HOME/oracle-exporter/config/.env
+```bash
+git clone https://github.com/staketown/oracle-monitoring.git oracle-monitoring
+cp $HOME/oracle-exporter/config/.env.example $HOME/oracle-monitoring/config/.env
 ```
 
 ### Update values in _.env_ file
-```
-nano $HOME/oracle-exporter/config/.env
+```bash
+nano $HOME/oracle-monitoring/config/.env
 ```
 
 | KEY            | VALUE                                                                                                                                                                                                          |
@@ -39,8 +39,8 @@ nano $HOME/oracle-exporter/config/.env
 | UMEE_GRPC      | Your umee's grpc endpoint                                                                                                                                                                                      |
 
 ### Export _.env_ file values into _.bash_profile_
-```
-echo "export $(xargs < $HOME/oracle-exporter/config/.env)" > $HOME/.bash_profile
+```bash
+echo "export $(xargs < $HOME/oracle-monitoring/config/.env)" > $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -53,15 +53,15 @@ sudo chmod a+x /usr/local/bin/yq
 
 To add validator use command with specified
 ```bash
-VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.valoper = "strenv(VALOPER)"' ~/oracle-exporter/prometheus/prometheus.yml
+VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.valoper = "strenv(VALOPER)"' ~/oracle-monitoring/prometheus/prometheus.yml
 ```
 
 To add more validators just run command above with validator values
 
 ### Run docker-compose
 Deploy the monitoring stack
-```
-cd $HOME/oracle-exporter && docker compose up -d
+```bash
+cd $HOME/oracle-monitoring && docker compose up -d
 ```
 
 ports used:
@@ -78,14 +78,13 @@ those are being retrieved and calculated over exporter
 
 ## Cleanup all container data
 ```bash
-cd $HOME/oracle-exporter && docker compose down && docker volume prune -f
+cd $HOME/oracle-monitoring && docker compose down && docker volume prune -f
 ```
 
 ## Reference list
-Resources I used in this project:
+Resources are being used:
 - Stack of monitoring tools [node_tooling by Xiphiar](https://github.com/Xiphiar/node_tooling/)
 - Alertmanager telegram bot [alertmanager-bot by metalmatze](https://github.com/metalmatze/alertmanager-bot)
 
 ## Contribution
-
 Just submit PR if you see any issues, we would appreciate it!
