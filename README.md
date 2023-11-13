@@ -45,10 +45,15 @@ source $HOME/.bash_profile
 ```
 
 ### Add validator into _prometheus_ configuration file
+Install yq
+```bash
+sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+sudo chmod a+x /usr/local/bin/yq
+```
+
 To add validator use command with specified
 ```bash
-VALOPER=YOUR_VALOPER_ADDRESS && \
-yq -i -y --arg val "$VALOPER" '.scrape_configs[1].static_configs[0].labels.valoper = $val' ./prometheus/prometheus.yml
+VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.valoper = "strenv(VALOPER)"' ~/oracle-exporter/prometheus/prometheus.yml
 ```
 
 To add more validators just run command above with validator values
@@ -56,7 +61,7 @@ To add more validators just run command above with validator values
 ### Run docker-compose
 Deploy the monitoring stack
 ```
-cd $HOME/oracle-exporter && docker-compose up -d
+cd $HOME/oracle-exporter && docker compose up -d
 ```
 
 ports used:
@@ -73,7 +78,7 @@ those are being retrieved and calculated over exporter
 
 ## Cleanup all container data
 ```bash
-cd $HOME/oracle-exporter && docker-compose down && docker volume prune -f
+cd $HOME/oracle-exporter && docker compose down && docker volume prune -f
 ```
 
 ## Reference list
