@@ -20,6 +20,7 @@ var (
 
 	ListenAddress string
 	NodeAddress   string
+	BlockTime     uint64
 
 	LogLevel string
 
@@ -66,6 +67,7 @@ func Execute(cmd *cobra.Command, args []string) {
 	log.Info().
 		Str("--listen-address", ListenAddress).
 		Str("--node", NodeAddress).
+		Uint64("--block-time", BlockTime).
 		Str("--log-level", LogLevel).
 		Msg("Started with following parameters")
 
@@ -82,7 +84,7 @@ func Execute(cmd *cobra.Command, args []string) {
 	}
 
 	http.HandleFunc("/metrics/general", func(w http.ResponseWriter, r *http.Request) {
-		GeneralHandler(w, r, grpcConn)
+		GeneralHandler(w, r, grpcConn, BlockTime)
 	})
 
 	log.Info().Str("address", ListenAddress).Msg("Listening")
@@ -94,6 +96,7 @@ func Execute(cmd *cobra.Command, args []string) {
 
 func main() {
 	rootCmd.PersistentFlags().StringVar(&ConfigPath, "config", "", "Config file path")
+	rootCmd.PersistentFlags().Uint64Var(&BlockTime, "block-time", 5, "Block time in seconds")
 	rootCmd.PersistentFlags().StringVar(&ListenAddress, "listen-address", ":9300", "The address this exporter would listen on")
 	rootCmd.PersistentFlags().StringVar(&NodeAddress, "node", "localhost:9090", "RPC node address")
 	rootCmd.PersistentFlags().StringVar(&LogLevel, "log-level", "info", "Logging level")

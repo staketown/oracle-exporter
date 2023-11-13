@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.ClientConn) {
+func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.ClientConn, blockTime uint64) {
 	requestStart := time.Now()
 
 	sublogger := log.With().
@@ -167,7 +167,6 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	generalWindowProgressGauge.Set(float64(slashWindowResponse.WindowProgress))
 
 	// doing this not in goroutine as we'll need params from oracle params response for calculation
-
 	sublogger.Debug().Msg("Started querying oracle params")
 	queryStart := time.Now()
 
@@ -250,7 +249,6 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 		windowStart := time.Now()
 
 		oracleParams := oracleParamsResponse.Params
-		var blockTime uint64 = 6
 		seconds := (windowSize - slashWindowResponse.WindowProgress + 1) * blockTime * oracleParams.VotePeriod
 
 		sublogger.Debug().
