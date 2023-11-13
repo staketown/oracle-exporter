@@ -35,7 +35,15 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	generalWindowProgressGauge := prometheus.NewGauge(
 		prometheus.GaugeOpts{
 			Name:        "window_progress",
-			Help:        "current slash window progress, block number in the current window",
+			Help:        "Current slash window progress, block number in the current window",
+			ConstLabels: ConstLabels,
+		},
+	)
+
+	generalWindowSizeGauge := prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name:        "window_size",
+			Help:        "Current window size",
 			ConstLabels: ConstLabels,
 		},
 	)
@@ -126,6 +134,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(generalWindowProgressGauge)
+	registry.MustRegister(generalWindowSizeGauge)
 	registry.MustRegister(paramsSlashWindowGauge)
 	registry.MustRegister(paramsMinValidPerWindowGauge)
 	registry.MustRegister(paramsSlashFractionGauge)
@@ -182,6 +191,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	paramsSlashFractionGauge.Set(oracleParamsResponse.Params.SlashFraction.MustFloat64())
 	paramsVotePeriodGauge.Set(float64(oracleParamsResponse.Params.VotePeriod))
 	paramsSymbolsCountGauge.Set(float64(len(oracleParamsResponse.Params.AcceptList)))
+	generalWindowSizeGauge.Set(float64(oracleParamsResponse.Params.SlashWindow / oracleParamsResponse.Params.VotePeriod))
 
 	var wg sync.WaitGroup
 
