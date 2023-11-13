@@ -40,7 +40,7 @@ services:
         source: grafana_data
         target: /var/lib/grafana
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-      - ./grafana/dashboards/oracle.json:/etc/grafana/provisioning/dashboards/oracle.json
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
     ports:
       - 9999:3000
     networks:
