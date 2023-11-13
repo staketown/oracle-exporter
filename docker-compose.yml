@@ -40,7 +40,7 @@ services:
         source: grafana_data
         target: /var/lib/grafana
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards/oracle.json:/etc/grafana/provisioning/dashboards/oracle.json
     ports:
       - 9999:3000
     networks:
@@ -73,7 +73,7 @@ services:
       - FLASK_DEBUG=true
     networks:
       - oracle-monitoring
-    entrypoint: ["/usr/bin/oracle-exporter", "--node", "${UMEE_VALOPER}"]
+    entrypoint: ["/usr/bin/oracle-exporter", "--node", "${UMEE_GRPC}"]
 
   alerta:
     image: alerta/alerta-web:latest
