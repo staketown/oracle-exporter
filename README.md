@@ -56,7 +56,7 @@ sudo chmod a+x /usr/local/bin/yq
 
 - Replce **YOUR_VALOPER_ADDRESS** with you validator address value and execute command
 ```bash
-VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.valoper = "strenv(VALOPER)"' ~/oracle-monitoring/prometheus/prometheus.yml
+VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.valoper = strenv(VALOPER)' ~/oracle-monitoring/prometheus/prometheus.yml
 ```
 
 ## Start monitoring
