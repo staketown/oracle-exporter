@@ -240,7 +240,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "slash_window"
+              "options": "slash window"
             },
             "properties": [
               {
@@ -251,7 +251,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "min_valid_per_window"
+              "options": "minimum valid per window"
             },
             "properties": [
               {
@@ -263,7 +263,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "slash_fraction"
+              "options": "slash fraction"
             },
             "properties": [
               {
@@ -775,7 +775,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
