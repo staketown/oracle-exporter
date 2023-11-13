@@ -4,8 +4,10 @@ import (
 	"crypto/tls"
 	"fmt"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 	"net/http"
 	"os"
+	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/rs/zerolog"
@@ -73,12 +75,22 @@ func Execute(cmd *cobra.Command, args []string) {
 
 	config := sdk.GetConfig()
 	config.Seal()
-	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: false})
 
-	grpcConn, err := grpc.Dial(
-		NodeAddress,
-		grpc.WithTransportCredentials(creds),
-	)
+	var grpcConn *grpc.ClientConn
+
+	if strings.EqualFold(strings.Split(NodeAddress, ":")[1], "443") {
+		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: false})
+		grpcConn, err = grpc.Dial(
+			NodeAddress,
+			grpc.WithTransportCredentials(creds),
+		)
+	} else {
+		grpcConn, err = grpc.Dial(
+			NodeAddress,
+			grpc.WithTransportCredentials(insecure.NewCredentials()),
+		)
+	}
+
 	if err != nil {
 		log.Fatal().Err(err).Msg("Could not connect to gRPC node")
 	}
