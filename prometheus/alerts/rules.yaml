@@ -20,10 +20,10 @@ groups:
           description: "Miss rate is going up, check {{ $labels.instance }}"
 
       - alert: MissCounterGoingUp
-        expr: delta(miss_counter[5m]) > 0
+        expr: delta(miss_counter[5m]) > 10
         for: 5m
         labels:
           severity: critical
         annotations:
-          summary: "miss_counter is going up"
+          summary: "miss counter is going up"
           description: "One or more asset missed their vote, please check"

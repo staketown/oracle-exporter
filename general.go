@@ -186,12 +186,13 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 		Float64("request-time", time.Since(queryStart).Seconds()).
 		Msg("Finished querying oracle params")
 
+	windowSize := oracleParamsResponse.Params.SlashWindow / oracleParamsResponse.Params.VotePeriod
+	generalWindowSizeGauge.Set(float64(windowSize))
 	paramsSlashWindowGauge.Set(float64(oracleParamsResponse.Params.SlashWindow))
 	paramsMinValidPerWindowGauge.Set(oracleParamsResponse.Params.MinValidPerWindow.MustFloat64())
 	paramsSlashFractionGauge.Set(oracleParamsResponse.Params.SlashFraction.MustFloat64())
 	paramsVotePeriodGauge.Set(float64(oracleParamsResponse.Params.VotePeriod))
 	paramsSymbolsCountGauge.Set(float64(len(oracleParamsResponse.Params.AcceptList)))
-	generalWindowSizeGauge.Set(float64(oracleParamsResponse.Params.SlashWindow / oracleParamsResponse.Params.VotePeriod))
 
 	var wg sync.WaitGroup
 
@@ -250,7 +251,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 
 		oracleParams := oracleParamsResponse.Params
 		var blockTime uint64 = 6
-		seconds := ((oracleParams.SlashWindow / oracleParams.VotePeriod) - slashWindowResponse.WindowProgress + 1) * blockTime * oracleParams.VotePeriod
+		seconds := (windowSize - slashWindowResponse.WindowProgress + 1) * blockTime * oracleParams.VotePeriod
 
 		sublogger.Debug().
 			Str("valoper", valoper).
