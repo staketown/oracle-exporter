@@ -19,7 +19,7 @@ groups:
           summary: "miss rate is going up"
           description: "Miss rate is going up, check {{ $labels.instance }}"
 
-      - alert: OracleIsDown
+      - alert: PriceFeederIsDown
         expr: delta(last_block_vote[5m]) < 40
         for: 5m
         labels:
