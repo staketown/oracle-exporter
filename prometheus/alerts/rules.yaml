@@ -19,6 +19,15 @@ groups:
           summary: "miss rate is going up"
           description: "Miss rate is going up, check {{ $labels.instance }}"
 
+      - alert: OracleIsDown
+        expr: delta(last_block_vote[5m]) < 40
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "oracle is down"
+          description: "Last vote block hasn't changed for last 5m, check {{ $labels.instance }}"
+
       - alert: MissCounterGoingUp
         expr: delta(miss_counter[5m]) > 7
         for: 5m
