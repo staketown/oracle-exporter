@@ -6,7 +6,7 @@ ENV CGO_ENABLED=0
 ENV GOOS=linux
 
 WORKDIR /exporter
-COPY . .
+COPY *.go go.sum go.mod ./
 RUN go build -o /oracle-exporter .
 
 FROM debian:buster-slim
