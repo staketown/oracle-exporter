@@ -44,7 +44,7 @@ nano $HOME/oracle-monitoring/config/.env
 
 - Export **.env** file values into **.bash_profile**
 ```bash
-echo "export $(xargs < $HOME/oracle-monitoring/config/.env)" > $HOME/.bash_profile
+echo "export $(xargs < $HOME/oracle-monitoring/config/.env)" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
