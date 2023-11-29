@@ -79,7 +79,7 @@ func Execute(cmd *cobra.Command, args []string) {
 	var grpcConn *grpc.ClientConn
 
 	if strings.EqualFold(strings.Split(NodeAddress, ":")[1], "443") {
-		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: false})
+		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
 		grpcConn, err = grpc.Dial(
 			NodeAddress,
 			grpc.WithTransportCredentials(creds),
