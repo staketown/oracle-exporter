@@ -1,4 +1,4 @@
-FROM golang:1.20 AS exporter
+FROM golang:1.19 AS exporter
 
 ENV GOBIN=/go/bin
 ENV GOPATH=/go
