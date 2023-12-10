@@ -650,7 +650,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
                 "color": "green",
@@ -658,11 +658,11 @@
               },
               {
                 "color": "#EAB839",
-                "value": 80
+                "value": 0.85
               },
               {
                 "color": "red",
-                "value": 95
+                "value": 0.95
               }
             ]
           },
