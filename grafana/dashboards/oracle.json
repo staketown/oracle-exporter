@@ -257,6 +257,10 @@
               {
                 "id": "decimals",
                 "value": 2
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
               }
             ]
           },
@@ -268,7 +272,11 @@
             "properties": [
               {
                 "id": "decimals",
-                "value": 4
+                "value": 2
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
               }
             ]
           }

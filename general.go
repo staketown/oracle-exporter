@@ -231,8 +231,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 			Msg("Started calculate the miss rate")
 		missRateStart := time.Now()
 
-		missRate := float64(missCounterResponse.MissCounter) /
-			(float64(slashWindowResponse.WindowProgress) * float64(len(oracleParamsResponse.Params.AcceptList)))
+		missRate := float64(missCounterResponse.MissCounter) / float64(slashWindowResponse.WindowProgress)
 
 		sublogger.Debug().
 			Str("valoper", valoper).

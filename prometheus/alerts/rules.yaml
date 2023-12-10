@@ -2,16 +2,16 @@ groups:
   - name: umee-oracle
     rules:
       - alert: BadMissRate
-        expr: miss_rate > 0.025
+        expr: miss_rate > 0.8
         for: 5m
         labels:
           severity: critical
         annotations:
-          summary: "miss rate hit 2.5%"
-          description: "Miss rate hit 2.5%, fix urgently {{ $labels.instance }} before it hits 5%"
+          summary: "miss rate hit 80%"
+          description: "Miss rate hit 80%, fix urgently {{ $labels.instance }} before it hits 95%"
 
       - alert: MissRateGoingUp
-        expr: delta(miss_rate[5m]) > 0 and miss_rate > 0.025
+        expr: delta(miss_rate[5m]) > 6 and miss_rate > 0.5
         for: 5m
         labels:
           severity: critical
@@ -29,7 +29,7 @@ groups:
           description: "Last vote block hasn't changed for last 5m, check {{ $labels.instance }}"
 
       - alert: MissCounterGoingUp
-        expr: delta(miss_counter[5m]) > 7
+        expr: delta(miss_counter[5m]) > 8
         for: 5m
         labels:
           severity: critical
