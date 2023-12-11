@@ -60,7 +60,7 @@ VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.
 MONIKER=YOUR_VALOPER_MONIKER yq -i '.scrape_configs[1].static_configs[0].labels.instance = strenv(MONIKER)' ~/oracle-monitoring/prometheus/prometheus.yml
 ```
 
-### Support several validator
+### Support several validators
 
 Dashboard supports monitoring of several validators, to do that you just need
 to open from working directory ```./prometheus/prometheus.yml``` and set one more config entity.
