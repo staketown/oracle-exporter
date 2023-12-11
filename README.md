@@ -63,7 +63,7 @@ MONIKER=YOUR_VALOPER_MONIKER yq -i '.scrape_configs[1].static_configs[0].labels.
 ### Support several validator
 
 Dashboard supports monitoring of several validators, to do that you just need
-to open from working directory ./prometheus/prometheus.yml and set one more config entity.
+to open from working directory ```./prometheus/prometheus.yml``` and set one more config entity.
 It should be looked like below:
 ![prometheus_example.png](images%2Fprometheus_example.png)
 
