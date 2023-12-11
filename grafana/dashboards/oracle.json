@@ -772,7 +772,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "last_block_vote",
+          "expr": "last_block_vote{instance=\"$instance\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
