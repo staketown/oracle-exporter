@@ -32,4 +32,4 @@ scrape_configs:
           - umee-oracle-exporter:9300
         labels:
           valoper: YOUR_VALIDATOR_ADDRESS
-          instance: umee-price-feeder
+          instance: YOUR_VALIDATOR_MONIKER
