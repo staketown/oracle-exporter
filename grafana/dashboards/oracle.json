@@ -115,7 +115,7 @@
           },
           "editorMode": "code",
           "expr": "delta(miss_counter{instance=\"$instance\"}[5m])",
-          "legendFormat": "__auto",
+          "legendFormat": "{{valoper}}",
           "range": true,
           "refId": "A"
         }
@@ -165,7 +165,7 @@
               "mode": "off"
             }
           },
-          "decimals": 0,
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
@@ -211,7 +211,7 @@
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{valoper}}",
           "range": true,
           "refId": "A"
         }
@@ -650,13 +650,13 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
-      "description": "good when below 5%",
+      "description": "should not exceed 95% as it will lead to validator slash",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 0,
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
