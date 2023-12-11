@@ -57,7 +57,15 @@ sudo chmod a+x /usr/local/bin/yq
 - Replce **YOUR_VALOPER_ADDRESS** with you validator address value and execute command
 ```bash
 VALOPER=YOUR_VALOPER_ADDRESS yq -i '.scrape_configs[1].static_configs[0].labels.valoper = strenv(VALOPER)' ~/oracle-monitoring/prometheus/prometheus.yml
+MONIKER=YOUR_VALOPER_MONIKER yq -i '.scrape_configs[1].static_configs[0].labels.instance = strenv(MONIKER)' ~/oracle-monitoring/prometheus/prometheus.yml
 ```
+
+### Support several validator
+
+Dashboard supports monitoring of several validators, to do that you just need
+to open from working directory ./prometheus/prometheus.yml and set one more config entity.
+It should be looked like below:
+![prometheus_example.png](images%2Fprometheus_example.png)
 
 ## Start monitoring
 
