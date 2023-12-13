@@ -795,7 +795,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "assets misses",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -808,13 +808,16 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -823,9 +826,10 @@
               "mode": "off"
             }
           },
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
                 "color": "green",
@@ -853,8 +857,8 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -865,7 +869,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "delta(aggregated_votes{instance=\"$instance\"}[5m])",
+          "expr": "aggregated_votes{instance=\"$instance\"}",
           "format": "time_series",
           "instant": false,
           "interval": "5s",
@@ -889,6 +893,8 @@
   "templating": {
     "list": [
       {
+        "current": {
+        },
         "datasource": {
           "type": "prometheus",
           "uid": ""
