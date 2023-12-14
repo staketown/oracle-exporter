@@ -4,6 +4,7 @@ import (
 	"context"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -97,6 +98,15 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 		[]string{"valoper"},
 	)
 
+	validatorAggregateVoteGauge := prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name:        "aggregated_votes",
+			Help:        "Current aggregate vote for a given validator",
+			ConstLabels: ConstLabels,
+		},
+		[]string{"asset"},
+	)
+
 	validatorFeederAccountGauge := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        "feeder_account",
@@ -145,6 +155,8 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 	registry.MustRegister(validatorMissRateGauge)
 	registry.MustRegister(validatorNextWindowStartGauge)
 	registry.MustRegister(validatorLastBlockVoteGauge)
+
+	registry.MustRegister(validatorAggregateVoteGauge)
 
 	// doing this not in goroutine as we'll need slash window value later
 	sublogger.Debug().Msg("Started querying current slash window progress")
@@ -323,6 +335,49 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request, grpcConn *grpc.Clien
 		validatorLastBlockVoteGauge.With(prometheus.Labels{
 			"valoper": valoper,
 		}).Set(float64(response.AggregatePrevote.SubmitBlock))
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+
+		sublogger.Debug().
+			Str("valoper", valoper).
+			Msg("Started querying validator aggregate vote")
+		queryStart := time.Now()
+
+		oracleClient := oracletypes.NewQueryClient(grpcConn)
+		response, err := oracleClient.AggregateVote(
+			context.Background(),
+			&oracletypes.QueryAggregateVote{ValidatorAddr: myAddress.String()},
+		)
+		if err != nil {
+			sublogger.Warn().
+				Str("valoper", valoper).
+				Err(err).
+				Msg("Could not get validator aggregate vote")
+			return
+		}
+
+		sublogger.Debug().
+			Str("valoper", valoper).
+			Float64("request-time", time.Since(queryStart).Seconds()).
+			Msg("Finished querying validator aggregate vote")
+
+		for _, asset := range oracleParamsResponse.Params.AcceptList {
+			var isContains float64 = 1 // expected that is missed by default
+
+			for _, exchangeTuple := range response.AggregateVote.ExchangeRateTuples {
+				if strings.EqualFold(asset.SymbolDenom, exchangeTuple.Denom) {
+					isContains = 0 // no misses
+					break
+				}
+			}
+
+			validatorAggregateVoteGauge.With(prometheus.Labels{
+				"asset": asset.SymbolDenom,
+			}).Set(isContains)
+		}
 	}()
 
 	wg.Wait()
