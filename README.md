@@ -74,11 +74,12 @@ It should be looked like below:
 cd $HOME/oracle-monitoring && docker compose up -d
 ```
 
-## Dashboard contents
+## Dashboard content
 Grafana dashboard has static oracle on-chain configuration and dynamic 
 those are being retrieved and calculated over exporter  
 
-![image](./images/dashboard.png)
+![image](./images/dashboard-1.png)
+![image](./images/dashboard-2.png)
 
 ## Cleanup all container data
 ```bash
